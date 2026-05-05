@@ -37,3 +37,28 @@ document.addEventListener('keydown', (event) => {
     }
   }
 });
+
+// Auto-skip YouTube ads functionality
+function autoSkipAds() {
+  // Try to find and click the skip button
+  const skipButton = document.querySelector('.ytp-ad-skip-button, .ytp-ad-skip-button-modern, button.ytp-ad-skip-button-container');
+  
+  if (skipButton) {
+    console.log('Ad skip button found, clicking...');
+    skipButton.click();
+  }
+}
+
+// Observe DOM changes to detect when ads appear
+const observer = new MutationObserver(() => {
+  autoSkipAds();
+});
+
+// Start observing the document body for changes
+observer.observe(document.body, {
+  childList: true,
+  subtree: true
+});
+
+// Also check periodically in case the mutation observer misses something
+setInterval(autoSkipAds, 500);
